@@ -9,6 +9,13 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     Room room;
     public int id;
 
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("Connected");
+        ApiController.GetInstance().mainMenu.SetActive(true);
+    }
+
+    /*
     void Awake()
     {
         //PhotonNetwork.AutomaticallySyncScene = true;
@@ -81,4 +88,5 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         CreateRoom();
     }
     #endregion
+    */
 }
