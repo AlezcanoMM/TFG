@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class ApiController : MonoBehaviour
     public GameObject plane;
     public GameObject mainMenu;
     public GameObject slidesMenu;
+
+    public PhotonView pv;
 
     private static ApiController instance = null;
 
@@ -37,11 +40,23 @@ public class ApiController : MonoBehaviour
     }
 
     public void Present() {
+        pv.RPC("PresentRPC", RpcTarget.All);
+    }
+
+    public void EndPresentation() {
+        pv.RPC("EndPresentationRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void PresentRPC()
+    {
         plane.SetActive(true);
         slidesMenu.SetActive(true);
     }
 
-    public void EndPresentation() {
+    [PunRPC]
+    public void EndPresentationRPC()
+    {
         plane.SetActive(false);
         slidesMenu.SetActive(false);
     }
