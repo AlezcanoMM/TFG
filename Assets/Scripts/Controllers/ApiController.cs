@@ -6,13 +6,19 @@ using UnityEngine;
 public class ApiController : MonoBehaviour
 {
     public TextureController textureController;
+    public PresentationController presenationController;
     public Loader loader;
 
     public GameObject plane;
     public GameObject mainMenu;
+    public GameObject presentButton;
     public GameObject slidesMenu;
+    public GameObject presentationSelectMenu;
+
+    public GameObject presentationOptionPrefab;
 
     public PhotonView pv;
+    public string presentationName;
 
     private static ApiController instance = null;
 

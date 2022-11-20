@@ -6,11 +6,12 @@ using UnityEngine;
 public class TextureLoader : Loader
 {
     public PhotonView pv;
-    public string presentationName;
+    public ApiController api;
 
     private void Start()
     {
-        Load();
+        api = ApiController.GetInstance();
+        //Load();
     }
 
     public override void Load() {
@@ -25,7 +26,7 @@ public class TextureLoader : Loader
     [PunRPC]
     public void LoadRPC() 
     {
-        foreach (Object slide in Resources.LoadAll("Presentations/" + presentationName))
+        foreach (Object slide in Resources.LoadAll("Presentations/" + api.presentationName))
         {
             loadedSlides.Add(slide);
         }
