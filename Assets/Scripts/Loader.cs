@@ -13,4 +13,8 @@ public abstract class Loader: MonoBehaviour
     public virtual void Clear() { 
         
     }
+
+    public virtual List<Object> GetLoadedSlides() {
+        return loadedSlides;
+    }
 }

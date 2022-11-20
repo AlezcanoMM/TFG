@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkController : MonoBehaviourPunCallbacks
+public class RoomSynchController : MonoBehaviourPunCallbacks
 {
     Room room;
     public int id;

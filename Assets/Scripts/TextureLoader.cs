@@ -1,9 +1,11 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TextureLoader : Loader
 {
+    public PhotonView pv;
     public string presentationName;
 
     private void Start()
@@ -12,12 +14,25 @@ public class TextureLoader : Loader
     }
 
     public override void Load() {
-        foreach (Object slide in Resources.LoadAll("Presentations/"+ presentationName)) {
+        pv.RPC("LoadRPC", RpcTarget.All);
+    }
+
+    public override void Clear()
+    {
+        pv.RPC("ClearRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void LoadRPC() 
+    {
+        foreach (Object slide in Resources.LoadAll("Presentations/" + presentationName))
+        {
             loadedSlides.Add(slide);
         }
     }
 
-    public override void Clear()
+    [PunRPC]
+    public void ClearRPC() 
     {
         loadedSlides.Clear();
     }
