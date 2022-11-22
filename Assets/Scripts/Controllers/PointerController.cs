@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointerController : MonoBehaviour
+public class PointerController : MonoBehaviour, IPunObservable
 {
     private ApiController api;
     
@@ -75,6 +75,27 @@ public class PointerController : MonoBehaviour
             lineRenderer.SetPosition(0, start);
             lineRenderer.SetPosition(1, end);
 
+        }
+    }
+
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.localPosition);
+            stream.SendNext(transform.localRotation);
+            stream.SendNext(LaserPointerOrigin);
+            stream.SendNext(LaserPointerDestination);
+            stream.SendNext(isPointerOn);
+            stream.SendNext(ColorUtility.ToHtmlStringRGB(lineRenderer.material.color));
+        }
+        else
+        {
+            networkLocalPosition = (Vector3)stream.ReceiveNext();
+            networkLocalRotation = (Quaternion)stream.ReceiveNext();
+            LaserPointerOrigin = (Vector3)stream.ReceiveNext();
+            LaserPointerDestination = (Vector3)stream.ReceiveNext();
+            isPointerOn = (bool)stream.ReceiveNext();
         }
     }
 }
