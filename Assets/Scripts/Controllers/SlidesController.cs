@@ -27,7 +27,7 @@ public class SlidesController : MonoBehaviour
 
     public void LoadNextSlide()
     {
-        if (index < api.loader.GetLoadedSlides().Count)
+        if (index < api.loader.GetLoadedSlides().Count-1)
         {
             index++;
             api.textureController.LoadTextureOnPlane(index);

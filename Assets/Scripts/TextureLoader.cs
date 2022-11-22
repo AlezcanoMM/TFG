@@ -6,7 +6,7 @@ using UnityEngine;
 public class TextureLoader : Loader
 {
     public PhotonView pv;
-    public ApiController api;
+    private ApiController api;
 
     private void Start()
     {
