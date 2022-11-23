@@ -87,7 +87,6 @@ public class PointerController : MonoBehaviour, IPunObservable
             stream.SendNext(LaserPointerOrigin);
             stream.SendNext(LaserPointerDestination);
             stream.SendNext(isPointerOn);
-            stream.SendNext(ColorUtility.ToHtmlStringRGB(lineRenderer.material.color));
         }
         else
         {
