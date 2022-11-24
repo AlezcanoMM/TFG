@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class HandPositionController : MonoBehaviour
 {
@@ -21,11 +22,6 @@ public class HandPositionController : MonoBehaviour
         }
         else {
             hand = "Left_RiggedHandLeft(Clone)/L_Hand_MRTK_Rig/L_Wrist";
-        }
-
-        //Hide model from this hand from yourself so you don't see duplicates
-        if (ApiController.GetInstance().pv.IsMine) {
-            this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 

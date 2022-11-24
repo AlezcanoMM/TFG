@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1259450950111051135}
+  - component: {fileID: 6060346255415101360}
   m_Layer: 0
   m_Name: R_Wrist
   m_TagString: Untagged
@@ -66,6 +67,22 @@ Transform:
   m_Father: {fileID: 218088415903880389}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6060346255415101360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789841396763817631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3643657045497837985
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,7 +865,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1231107996362082232}
   - component: {fileID: 8281739588339358245}
-  - component: {fileID: 5568654674610536541}
   - component: {fileID: 5568654674610536542}
   - component: {fileID: 5568654674610536543}
   m_Layer: 0
@@ -903,22 +919,6 @@ MonoBehaviour:
   ModelFingerPointing: {x: 1, y: 0, z: 0}
   ModelPalmFacing: {x: 0, y: -1, z: 0}
   handRenderer: {fileID: 8188190462516816812}
---- !u!114 &5568654674610536541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9194044563527017084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &5568654674610536542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,7 +938,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5568654674610536541}
+  - {fileID: 6060346255415101360}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
