@@ -954,6 +954,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703580042b3c4fb4b812fe3e7bd2bfaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wrist: {fileID: 0}
+  wrist: {fileID: 1259450950111051135}
   wristRootBone: {fileID: 0}
   isRightHand: 1

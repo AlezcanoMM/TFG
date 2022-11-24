@@ -9,15 +9,27 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     Room room;
     public int id;
 
-    private bool firstTime = true;
-    private bool foundRightHand = false;
-    private GameObject rightHand;
-    private GameObject photonRightHand;
+    private bool instantiatedRight = false;
+    private bool instantiatedLeft = false;
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Connected");
         ApiController.GetInstance().mainMenu.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (GameObject.Find("Right_RiggedHandRight(Clone)") && !instantiatedRight) {
+            PhotonNetwork.Instantiate("Right_HandModel",Vector3.zero,Quaternion.identity,0);
+            instantiatedRight = true;
+        }
+
+        if (GameObject.Find("Left_RiggedHandLeft(Clone)") && !instantiatedLeft)
+        {
+            PhotonNetwork.Instantiate("Left_HandModel", Vector3.zero, Quaternion.identity, 0);
+            instantiatedLeft = true;
+        }
     }
 
     /*
