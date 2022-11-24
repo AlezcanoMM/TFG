@@ -18,7 +18,7 @@ public class ApiController : MonoBehaviour
     public GameObject presentationOptionPrefab;
 
     public PhotonView pv;
-    public string presentationName;
+    public List<string> presentationSlidesIds = new List<string>();
 
     private static ApiController instance = null;
 
@@ -63,7 +63,9 @@ public class ApiController : MonoBehaviour
     [PunRPC]
     public void EndPresentationRPC()
     {
+        plane.transform.localScale = Vector3.zero;
         plane.SetActive(false);
         slidesMenu.SetActive(false);
     }
+
 }

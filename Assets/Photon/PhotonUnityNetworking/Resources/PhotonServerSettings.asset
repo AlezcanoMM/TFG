@@ -51,6 +51,8 @@ MonoBehaviour:
   - EndPresentationRPC
   - PresentRPC
   - SelectPresentationOptionRPC
+  - AddSlideIdRPC
+  - EndAndClearPresentationRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

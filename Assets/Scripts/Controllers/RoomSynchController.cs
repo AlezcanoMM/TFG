@@ -9,10 +9,26 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     Room room;
     public int id;
 
+    private bool foundRightHand = false;
+
     public override void OnJoinedRoom()
     {
         Debug.Log("Connected");
         ApiController.GetInstance().mainMenu.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (GameObject.Find("Right_RiggedHandRight(Clone)") && !foundRightHand && ApiController.GetInstance().pv.IsMine)
+        {
+            GameObject.Find("Right_RiggedHandRight(Clone)").AddComponent<PhotonView>().ObservedComponents = new List<Component>();
+            GameObject.Find("Right_RiggedHandRight(Clone)").GetComponent<PhotonView>().ObservedComponents.Add(GameObject.Find("Right_RiggedHandRight(Clone)").AddComponent<PhotonTransformView>());
+            foundRightHand = true;
+        }
+        else if (!GameObject.Find("Right_RiggedHandRight(Clone)") && foundRightHand && ApiController.GetInstance().pv.IsMine)
+        {
+            foundRightHand = false;
+        }
     }
 
     /*

@@ -16,7 +16,6 @@ public class SlidesController : MonoBehaviour
     {
         api.loader.Load();
         index = 0;
-        api.textureController.LoadTextureOnPlane(index);
     }
 
     public void ClearSlides() 

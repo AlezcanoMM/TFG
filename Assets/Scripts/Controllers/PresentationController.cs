@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using Photon.Pun;
+using UnityEngine.Networking;
+using SimpleJSON;
 
 public class PresentationController : MonoBehaviour
 {
@@ -12,47 +14,75 @@ public class PresentationController : MonoBehaviour
 
     public PhotonView pv;
 
+    private string jsonURL = "https://drive.google.com/uc?export=download&id=1Mw4YmwLxkYzvyJJ_c6CsY8TU_Ey4OGTp";
+
+    private bool loaded = false;
+
     private void Start()
     {
         api = ApiController.GetInstance();
         options = new List<GameObject>();
     }
 
-    public void CreatePresentationOptions() {
-        if (options.Count > 0)
+    public void CreatePresentationOptionFromServer() {
+        if (!loaded)
         {
-            api.presentationSelectMenu.SetActive(true);
+            loaded = true;
+            StartCoroutine(GetDataFromJSON(jsonURL));
+        }
+        return;
+    }
+
+    IEnumerator GetDataFromJSON(string url) {
+        UnityWebRequest request = UnityWebRequest.Get(url);
+
+        yield return request.SendWebRequest();
+
+        if (request.isNetworkError || request.isHttpError)
+        {
+            Debug.LogError(request.error);
         }
         else 
         {
-            //Creates buttons for each presentations under Assets/Resources/Presentations
-            foreach (string presentationName in Directory.GetFiles("Assets/Resources/Presentations"))
-            {
-                string name = presentationName.Replace("Assets/Resources/Presentations\\", "");
-                name = name.Replace(".meta", "");
-                Debug.Log(name);
+            var wc = new System.Net.WebClient();
+            string data = wc.DownloadString(url);
 
+            JSONNode jsonData = JSONNode.Parse(data);
+
+            foreach (JSONNode p in jsonData["presentations"])
+            {
                 GameObject option = Instantiate(api.presentationOptionPrefab, api.presentationSelectMenu.transform);
-                option.transform.GetChild(1).GetComponent<TextMeshPro>().text = name;
+                option.transform.GetChild(1).GetComponent<TextMeshPro>().text = p["name"];
                 option.GetComponent<ButtonController>().buttonChanges = false;
-                option.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { SelectPresentationOption(name); });
+                option.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { SelectPresentationOption(p); });
                 options.Add(option);
             }
         }
-        
     }
 
-    public void SelectPresentationOption(string name) {
-        pv.RPC("SelectPresentationOptionRPC", RpcTarget.All, name);
-    }
+    public void SelectPresentationOption(JSONNode p) {
+        pv.RPC("EndAndClearPresentationRPC", RpcTarget.All);
 
-    [PunRPC]
-    public void SelectPresentationOptionRPC(string name)
-    {
-        api.EndPresentation();
-        api.presentationName = name;
+        foreach (JSONNode slide in p["slides"])
+        {
+            string slideId = slide["slideUrl"];
+            pv.RPC("AddSlideIdRPC", RpcTarget.All, slideId);
+        }
+
         api.presentButton.SetActive(true);
         api.presentationSelectMenu.SetActive(false);
     }
 
+    [PunRPC]
+    public void AddSlideIdRPC(string slideId) {
+        api.presentationSlidesIds.Add(slideId);
+    }
+
+    [PunRPC]
+    public void EndAndClearPresentationRPC()
+    {
+        loaded = true;
+        api.presentationSlidesIds.Clear();
+        api.EndPresentation();
+    }
 }
