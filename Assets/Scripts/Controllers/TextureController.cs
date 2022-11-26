@@ -31,7 +31,7 @@ public class TextureController : MonoBehaviour
     }
 
     public void ClearTextureOnPlane() {
-        pv.RPC("LoadTextureOnPlaneRPC", RpcTarget.All);
+        pv.RPC("ClearTextureOnPlaneRPC", RpcTarget.All);
     }
 
     [PunRPC]
