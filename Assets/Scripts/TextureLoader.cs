@@ -16,8 +16,8 @@ public class TextureLoader : Loader
         api = ApiController.GetInstance();
     }
 
-    public override void Load() {
-        pv.RPC("LoadRPC", RpcTarget.All);
+    public override void Load(string slideId) {
+        pv.RPC("LoadRPC", RpcTarget.All, slideId);
     }
 
     public override void Clear()
@@ -26,23 +26,22 @@ public class TextureLoader : Loader
     }
 
     [PunRPC]
-    public void LoadRPC() 
+    public void LoadRPC(string slideId) 
     {
-        foreach (string slideId in api.presentationSlidesIds) {
-            string downloadUrl = "https://drive.google.com/uc?export=download&id=" + slideId;
-            StartCoroutine(LoadTextureFromUrl(downloadUrl));
-        }
+        string downloadUrl = "https://drive.google.com/uc?export=download&id=" + slideId;
+        StartCoroutine(LoadTextureFromUrl(downloadUrl));
     }
 
     [PunRPC]
     public void ClearRPC() 
     {
         counter = 0;
-        loadedSlides.Clear();
+        loadedSlidesTextures.Clear();
     }
 
     IEnumerator LoadTextureFromUrl(string url)
     {
+        int prevCounter = counter;
         using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
         {
             yield return uwr.SendWebRequest();
@@ -55,19 +54,10 @@ public class TextureLoader : Loader
             else
             {
                 Object slide = DownloadHandlerTexture.GetContent(uwr);
-                loadedSlides.Add(slide);
+                loadedSlidesTextures.Add(slide);
                 counter++;
+                api.textureController.LoadTextureOnPlane(0); //loads first slide
             }
-        }
-
-        //wait for coroutine to end before loading presentation
-        if (counter == api.presentationSlidesIds.Count - 1)
-        {
-            api.textureController.LoadTextureOnPlane(0); //loads first slide
-        }
-        else 
-        {
-            Debug.Log("Loading slides...");
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,8 @@ public class ButtonController : MonoBehaviour, IMixedRealityFocusHandler, IMixed
     [Header("Methods On/Off")]
     public UnityEvent invokeMethodOn;
     public UnityEvent invokeMethodOff;
+
+    public TextMeshPro label;
 
     public void OnClick() {
         if (!isClicked)

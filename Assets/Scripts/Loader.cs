@@ -4,9 +4,10 @@ using UnityEngine;
 
 public abstract class Loader: MonoBehaviour
 {
-    public List<Object> loadedSlides;
+    public static List<Object> loadedSlidesTextures = new List<Object>();
+    public static List<string> loadedSlidesUrls = new List<string>();
 
-    public virtual void Load() { 
+    public virtual void Load(string slideId) { 
         
     }
 
@@ -14,7 +15,12 @@ public abstract class Loader: MonoBehaviour
         
     }
 
-    public virtual List<Object> GetLoadedSlides() {
-        return loadedSlides;
+    public virtual List<Object> GetLoadedSlidesTextures() {
+        return loadedSlidesTextures;
+    }
+
+    public virtual List<string> GetLoadedSlidesUrls()
+    {
+        return loadedSlidesUrls;
     }
 }

@@ -53,6 +53,12 @@ MonoBehaviour:
   - SelectPresentationOptionRPC
   - AddSlideIdRPC
   - EndAndClearPresentationRPC
+  - ClearVidRPC
+  - LoadVidRPC
+  - LoadVideoOnPlaneRPC
+  - CreateUserButtonRPC
+  - ForfeitMasterRPC
+  - ClearTextureOnPlaneRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ToolController : MonoBehaviour
 {
-    public ApiController api;
+    private ApiController api;
 
     private LineRenderer lineRenderer;
 

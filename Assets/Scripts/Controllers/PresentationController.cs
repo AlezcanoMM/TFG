@@ -14,7 +14,7 @@ public class PresentationController : MonoBehaviour
 
     public PhotonView pv;
 
-    private string jsonURL = "https://drive.google.com/uc?export=download&id=1Mw4YmwLxkYzvyJJ_c6CsY8TU_Ey4OGTp";
+    private string jsonURL = "https://drive.google.com/uc?export=download&id=18kr9WL90RinLJdXq22QsYAuS-QWCM6et";
 
     private bool loaded = false;
 
@@ -51,6 +51,7 @@ public class PresentationController : MonoBehaviour
 
             foreach (JSONNode p in jsonData["presentations"])
             {
+                Debug.Log("Getting presentation: "+p["name"]);
                 GameObject option = Instantiate(api.presentationOptionPrefab, api.presentationSelectMenu.transform);
                 option.transform.GetChild(1).GetComponent<TextMeshPro>().text = p["name"];
                 option.GetComponent<ButtonController>().buttonChanges = false;
@@ -65,7 +66,7 @@ public class PresentationController : MonoBehaviour
 
         foreach (JSONNode slide in p["slides"])
         {
-            string slideId = slide["slideUrl"];
+            string slideId = slide["type"] + "|" + slide["slideUrl"];
             pv.RPC("AddSlideIdRPC", RpcTarget.All, slideId);
         }
 

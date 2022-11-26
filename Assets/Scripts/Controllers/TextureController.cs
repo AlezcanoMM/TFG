@@ -24,9 +24,19 @@ public class TextureController : MonoBehaviour
     [PunRPC]
     public void LoadTextureOnPlaneRPC(int index)
     {
-        Texture2D texture = api.loader.GetLoadedSlides()[index] as Texture2D;
+        Texture2D texture = api.textureLoader.GetLoadedSlidesTextures()[index] as Texture2D;
         api.plane.GetComponent<Renderer>().material.mainTexture = texture;
         float scaleFactor = (float)texture.width / (float)texture.height;
         api.plane.transform.localScale = new Vector3(initialPlaneTransform.x*scaleFactor, initialPlaneTransform.y, initialPlaneTransform.z);
+    }
+
+    public void ClearTextureOnPlane() {
+        pv.RPC("LoadTextureOnPlaneRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void ClearTextureOnPlaneRPC()
+    {
+        api.plane.GetComponent<Renderer>().material.mainTexture = null;
     }
 }

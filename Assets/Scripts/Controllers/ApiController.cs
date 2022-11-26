@@ -6,14 +6,19 @@ using UnityEngine;
 public class ApiController : MonoBehaviour
 {
     public TextureController textureController;
+    public VideoController videoController;
     public PresentationController presenationController;
-    public Loader loader;
+
+    public Loader textureLoader;
+    public Loader videoLoader;
 
     public GameObject plane;
     public GameObject mainMenu;
     public GameObject presentButton;
+    public GameObject presentationsButton;
     public GameObject slidesMenu;
     public GameObject presentationSelectMenu;
+    public GameObject usersMenu;
 
     public GameObject presentationOptionPrefab;
 
@@ -42,22 +47,23 @@ public class ApiController : MonoBehaviour
 
     private void Start()
     {
-        plane.SetActive(false);
+        Debug.LogError(PhotonNetwork.MasterClient);
     }
 
     public void Present() {
         pv.RPC("PresentRPC", RpcTarget.All);
+        slidesMenu.SetActive(true);
     }
 
     public void EndPresentation() {
         pv.RPC("EndPresentationRPC", RpcTarget.All);
+        slidesMenu.SetActive(false);
     }
 
     [PunRPC]
     public void PresentRPC()
     {
         plane.SetActive(true);
-        slidesMenu.SetActive(true);
     }
 
     [PunRPC]
@@ -65,7 +71,6 @@ public class ApiController : MonoBehaviour
     {
         plane.transform.localScale = Vector3.zero;
         plane.SetActive(false);
-        slidesMenu.SetActive(false);
     }
 
 }

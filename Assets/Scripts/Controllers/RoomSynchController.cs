@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class RoomSynchController : MonoBehaviourPunCallbacks
 {
+    private bool roomMaster = false;
+
     Room room;
     public int id;
+
+    public PhotonView pv;
+
+    private string username;
 
     private bool instantiatedRight = false;
     private bool instantiatedLeft = false;
@@ -15,7 +21,16 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Connected");
+
+        if (PhotonNetwork.CountOfPlayers == 1 && photonView.IsMine) {
+            Debug.Log("You are room master");
+            roomMaster = true;
+            ApiController.GetInstance().presentationsButton.SetActive(true);
+        }
+
         ApiController.GetInstance().mainMenu.SetActive(true);
+        username = PhotonNetwork.NickName;
+        pv.RPC("CreateUserButtonRPC", RpcTarget.AllBuffered);
     }
 
     private void Update()
@@ -29,6 +44,51 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate("Left_HandModel", Vector3.zero, Quaternion.identity, 0);
             instantiatedLeft = true;
+        }
+    }
+
+    [PunRPC]
+    private void CreateUserButtonRPC() {
+        GameObject userButton = PhotonNetwork.Instantiate("UserButton", Vector3.zero, Quaternion.Euler(-90, 0, 0), 0);
+
+        //Delegate to button that if roomMaster clicks it, you can forfeit roomMaster
+        userButton.GetComponent<ButtonController>().label.text = username;
+        userButton.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { ForfeitMaster(PhotonNetwork.LocalPlayer); });
+
+        userButton.transform.SetParent(ApiController.GetInstance().usersMenu.transform, false);
+    }
+
+    public void ForfeitMaster(Player player) {
+        if (!roomMaster) {
+            return;
+        }
+
+        roomMaster = false;
+
+        bool statePresentationsButton = ApiController.GetInstance().presentationsButton.activeSelf;
+        bool statePresentationSelectMenu = ApiController.GetInstance().presentationSelectMenu.activeSelf;
+        bool statePresentButton = ApiController.GetInstance().presentButton.activeSelf;
+        bool stateSlidesMenu = ApiController.GetInstance().slidesMenu.activeSelf;
+
+        ApiController.GetInstance().presentationsButton.SetActive(false);
+        ApiController.GetInstance().presentationSelectMenu.SetActive(false);
+        ApiController.GetInstance().presentButton.SetActive(false);
+        ApiController.GetInstance().slidesMenu.SetActive(false);
+
+        pv.RPC("ForfeitMasterRPC", RpcTarget.AllBuffered, player, statePresentationsButton, statePresentationSelectMenu, statePresentButton, stateSlidesMenu);
+    }
+
+    [PunRPC]
+    public void ForfeitMasterRPC(Player player, bool statePresentationsButton, bool statePresentationSelectMenu, bool statePresentButton, bool stateSlidesMenu)
+    {
+        if (PhotonNetwork.LocalPlayer == player)
+        {
+            roomMaster = true;
+
+            ApiController.GetInstance().presentationsButton.SetActive(statePresentationsButton);
+            ApiController.GetInstance().presentationSelectMenu.SetActive(statePresentationSelectMenu);
+            ApiController.GetInstance().presentButton.SetActive(statePresentButton);
+            ApiController.GetInstance().slidesMenu.SetActive(stateSlidesMenu);
         }
     }
 
