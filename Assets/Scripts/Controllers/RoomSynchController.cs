@@ -18,6 +18,8 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     private bool instantiatedRight = false;
     private bool instantiatedLeft = false;
 
+    private GameObject userButton;
+
     public override void OnJoinedRoom()
     {
         Debug.Log("Connected");
@@ -30,7 +32,7 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
 
         ApiController.GetInstance().mainMenu.SetActive(true);
         username = PhotonNetwork.NickName;
-        pv.RPC("CreateUserButtonRPC", RpcTarget.AllBuffered);
+        pv.RPC("CreateUserButtonRPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer, username);
     }
 
     private void Update()
@@ -48,12 +50,12 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void CreateUserButtonRPC() {
+    private void CreateUserButtonRPC(Player localPlayer, string username) {
         GameObject userButton = PhotonNetwork.Instantiate("UserButton", Vector3.zero, Quaternion.Euler(-90, 0, 0), 0);
 
         //Delegate to button that if roomMaster clicks it, you can forfeit roomMaster
         userButton.GetComponent<ButtonController>().label.text = username;
-        userButton.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { ForfeitMaster(PhotonNetwork.LocalPlayer); });
+        userButton.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { ForfeitMaster(localPlayer); });
 
         userButton.transform.SetParent(ApiController.GetInstance().usersMenu.transform, false);
     }
