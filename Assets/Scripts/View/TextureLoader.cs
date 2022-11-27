@@ -27,12 +27,7 @@ public class TextureLoader : Loader
     public void LoadRPC(string slideId) 
     {
         string downloadUrl = "https://drive.google.com/uc?export=download&id=" + slideId;
-        StartCoroutine(SequentialAddition(downloadUrl));
-    }
-
-    IEnumerator SequentialAddition(string url)
-    {
-        yield return StartCoroutine(LoadTextureFromUrl(url));
+        StartCoroutine(LoadTextureFromUrl(downloadUrl));
     }
 
     [PunRPC]
