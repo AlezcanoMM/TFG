@@ -46,6 +46,7 @@ public class SlidesController : MonoBehaviour
 
     public void LoadNextSlide()
     {
+        Debug.LogError(index);
         if (index < (api.textureLoader.GetLoadedSlidesTextures().Count + api.videoLoader.GetLoadedSlidesUrls().Count)-1)
         {
             ClearPanel();
@@ -64,6 +65,7 @@ public class SlidesController : MonoBehaviour
 
     public void LoadPrevSlide()
     {
+        Debug.LogError(index);
         if (index > 0)
         {
             ClearPanel();
