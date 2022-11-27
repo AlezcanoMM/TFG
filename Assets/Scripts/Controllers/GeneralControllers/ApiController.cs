@@ -9,6 +9,7 @@ public class ApiController : MonoBehaviour
     public VideoController videoController;
     public PresentationController presenationController;
     public TimerController timerController;
+    public SlidesController slidesController;
 
     public Loader textureLoader;
     public Loader videoLoader;

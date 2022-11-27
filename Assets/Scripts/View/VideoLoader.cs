@@ -48,7 +48,6 @@ public class VideoLoader : Loader
         }
 
         loadedSlidesUrls.Add(downloadUrl);
-        api.videoController.LoadVideoOnPlane(0); //loads first slide
     }
 
     [PunRPC]

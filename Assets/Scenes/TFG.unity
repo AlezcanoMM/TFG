@@ -1966,6 +1966,7 @@ MonoBehaviour:
   videoController: {fileID: 126662053}
   presenationController: {fileID: 126662052}
   timerController: {fileID: 126662055}
+  slidesController: {fileID: 126662050}
   textureLoader: {fileID: 1852055586}
   videoLoader: {fileID: 1852055589}
   plane: {fileID: 566720866}

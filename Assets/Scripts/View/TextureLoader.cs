@@ -50,9 +50,9 @@ public class TextureLoader : Loader
             {
                 Object slide = DownloadHandlerTexture.GetContent(uwr);
                 loadedSlidesTextures.Add(slide);
-                api.textureController.LoadTextureOnPlane(0); //loads first slide
+                api.slidesController.IncrementRecursiveCounter();
+                api.slidesController.LoadSlidesRecursive();
             }
         }
-        
     }
 }

@@ -10,6 +10,8 @@ public class SlidesController : MonoBehaviour
     public int textureIndex = 0;
     public int videoIndex = 0;
 
+    private int recursiveCounter = 0;
+
     private void Start()
     {
         api = ApiController.GetInstance();
@@ -21,18 +23,40 @@ public class SlidesController : MonoBehaviour
         textureIndex = 0;
         videoIndex = 0;
 
-        foreach (string slideId in api.presentationSlidesIds)
+        LoadSlidesRecursive();
+    }
+
+    public void LoadSlidesRecursive() {
+        if (recursiveCounter >= api.presentationSlidesIds.Count-1) {
+            //loads first slide
+            string[] firstSlideCheck = api.presentationSlidesIds[0].Split('|');
+            if (firstSlideCheck[0] == "image")
+            {
+                api.textureController.LoadTextureOnPlane(0); //loads first slide
+            }
+            else if (firstSlideCheck[0] == "video" || firstSlideCheck[0] == "linkVideo")
+            {
+                api.videoController.LoadVideoOnPlane(0); //loads first slide
+            }
+            return;
+        }
+
+        string[] slideInfo = api.presentationSlidesIds[recursiveCounter].Split('|');
+        if (slideInfo[0] == "image")
         {
-            string[] slideInfo = slideId.Split('|');
-            if (slideInfo[0] == "image")
-            {
-                api.textureLoader.Load(slideInfo[1]);
-            }
-            else if (slideInfo[0] == "video" || slideInfo[0] == "linkVideo")
-            {
-                api.videoLoader.Load(slideId);
-            }
-        }        
+            api.textureLoader.Load(slideInfo[1]);
+        }
+        else if (slideInfo[0] == "video" || slideInfo[0] == "linkVideo")
+        {
+            api.videoLoader.Load(api.presentationSlidesIds[recursiveCounter]);
+            recursiveCounter++;
+            LoadSlidesRecursive();
+        }
+        
+    }
+
+    public void IncrementRecursiveCounter() {
+        recursiveCounter++;
     }
 
     public void ClearSlides() 
