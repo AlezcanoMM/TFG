@@ -8,6 +8,7 @@ public class ApiController : MonoBehaviour
     public TextureController textureController;
     public VideoController videoController;
     public PresentationController presenationController;
+    public TimerController timerController;
 
     public Loader textureLoader;
     public Loader videoLoader;
@@ -21,6 +22,7 @@ public class ApiController : MonoBehaviour
     public GameObject usersMenu;
 
     public GameObject presentationOptionPrefab;
+    public GameObject notificationPanelPrefab;
 
     public PhotonView pv;
     public List<string> presentationSlidesIds = new List<string>();
@@ -72,5 +74,4 @@ public class ApiController : MonoBehaviour
         plane.transform.localScale = Vector3.zero;
         plane.SetActive(false);
     }
-
 }

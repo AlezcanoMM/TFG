@@ -59,6 +59,8 @@ MonoBehaviour:
   - CreateUserButtonRPC
   - ForfeitMasterRPC
   - ClearTextureOnPlaneRPC
+  - EndNotifyRPC
+  - NotifyRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

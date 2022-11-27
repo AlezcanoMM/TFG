@@ -35,6 +35,11 @@ public class ButtonController : MonoBehaviour, IMixedRealityFocusHandler, IMixed
         }
     }
 
+    public void ForceChangeState()
+    {
+        isClicked = !isClicked;
+    }
+
     public void OnPointerClicked(MixedRealityPointerEventData eventData)
     {
         Debug.Log("CLICK Button " + gameObject.name + " has been clicked.");
