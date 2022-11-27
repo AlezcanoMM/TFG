@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class SlidesController : MonoBehaviour
 {
     private ApiController api;
     public int index = 0;
+
+    public PhotonView pv;
 
     public int textureIndex = 0;
     public int videoIndex = 0;
@@ -23,11 +26,17 @@ public class SlidesController : MonoBehaviour
         textureIndex = 0;
         videoIndex = 0;
 
+
+        pv.RPC("LoadSlidesRecursiveRPC", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void LoadSlidesRecursiveRPC() {
         LoadSlidesRecursive();
     }
 
     public void LoadSlidesRecursive() {
-        if (recursiveCounter >= api.presentationSlidesIds.Count-1) {
+        if (recursiveCounter >= api.presentationSlidesIds.Count) {
             //loads first slide
             string[] firstSlideCheck = api.presentationSlidesIds[0].Split('|');
             if (firstSlideCheck[0] == "image")

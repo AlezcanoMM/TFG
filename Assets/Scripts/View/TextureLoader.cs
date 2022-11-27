@@ -15,7 +15,9 @@ public class TextureLoader : Loader
     }
 
     public override void Load(string slideId) {
-        pv.RPC("LoadRPC", RpcTarget.All, slideId);
+        //pv.RPC("LoadRPC", RpcTarget.All, slideId);
+        string downloadUrl = "https://drive.google.com/uc?export=download&id=" + slideId;
+        StartCoroutine(LoadTextureFromUrl(downloadUrl));
     }
 
     public override void Clear()
