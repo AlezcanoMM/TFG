@@ -25,12 +25,6 @@ public class PresentationController : MonoBehaviour
     }
 
     public void CreatePresentationOptionFromServer() {
-        pv.RPC("CreatePresentationOptionFromServerRPC", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void CreatePresentationOptionFromServerRPC()
-    {
         if (!loaded)
         {
             loaded = true;
