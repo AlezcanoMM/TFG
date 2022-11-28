@@ -33,6 +33,7 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         ApiController.GetInstance().mainMenu.SetActive(true);
         username = PhotonNetwork.NickName;
         pv.RPC("CreateUserButtonRPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer, username);
+
     }
 
     private void Update()
@@ -55,6 +56,10 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
 
         //Delegate to button that if roomMaster clicks it, you can forfeit roomMaster
         userButton.GetComponent<ButtonController>().label.text = username;
+        if (pv.Owner == localPlayer)
+        {
+            userButton.GetComponent<ButtonController>().label.text = "You";
+        }
         userButton.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { ForfeitMaster(localPlayer); });
 
         userButton.transform.SetParent(ApiController.GetInstance().usersMenu.transform, false);
