@@ -24,7 +24,6 @@ public class TextureController : MonoBehaviour
     [PunRPC]
     public void LoadTextureOnPlaneRPC(int index)
     {
-        Debug.LogError(index);
         Texture2D texture = api.textureLoader.GetLoadedSlidesTextures()[index] as Texture2D;
         api.plane.GetComponent<Renderer>().material.mainTexture = texture;
         float scaleFactor = (float)texture.width / (float)texture.height;
