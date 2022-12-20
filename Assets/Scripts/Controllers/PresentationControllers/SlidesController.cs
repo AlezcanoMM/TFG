@@ -72,7 +72,11 @@ public class SlidesController : MonoBehaviour
 
     public void ClearSlides() 
     {
-        Debug.LogError("AAAAAAA");
+        pv.RPC("ClearSlidesRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void ClearSlidesRPC() {
         app.videoLoader.Clear();
         app.textureLoader.Clear();
         app.drawToolController.Clear();
@@ -81,7 +85,7 @@ public class SlidesController : MonoBehaviour
         videoIndex = 0;
         recursiveCounter = 0;
         ClearPanel();
-}
+    }
 
     public void LoadNextSlide()
     {
