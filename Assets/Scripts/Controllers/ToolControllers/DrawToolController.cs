@@ -1,4 +1,3 @@
-using Microsoft.MixedReality.Toolkit.Input;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,14 +14,9 @@ public class DrawToolController : MonoBehaviour
     private bool isDrawing = false;
 
     public void Draw() {
-        line = PhotonNetwork.Instantiate("DrawLine", Vector3.zero, Quaternion.identity, 0);
-
         isDrawing = true;
-        pv.RPC("DrawRPC", RpcTarget.All);
-    }
 
-    [PunRPC]
-    public void DrawRPC() {
+        line = PhotonNetwork.Instantiate("DrawLine", Vector3.zero, Quaternion.identity, 0);
         lines.Add(line);
     }
 
@@ -35,15 +29,11 @@ public class DrawToolController : MonoBehaviour
     }
 
     public void Clear() {
-        pv.RPC("ClearRPC", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void ClearRPC() {
+        AppController.GetInstance().planeInteractionController.points.Clear();
         foreach (GameObject line in lines)
         {
             line.GetComponent<DrawLineController>().ClearPoints();
-            line.SetActive(false);
+            //line.SetActive(false);
         }
     }
 }

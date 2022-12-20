@@ -44,8 +44,15 @@ public class DrawLineController : MonoBehaviour
         line.SetPosition(i, points[i]);
     }
 
-    public void ClearPoints() {
+    public void ClearPoints()
+    {
+        pv.RPC("ClearPointsRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void ClearPointsRPC() {
         i = 0;
         points.Clear();
+        this.gameObject.SetActive(false);
     }
 }
