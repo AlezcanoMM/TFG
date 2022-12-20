@@ -24,6 +24,7 @@ public class AppController : MonoBehaviour
     public GameObject slidesMenu;
     public GameObject presentationSelectMenu;
     public GameObject usersMenu;
+    public GameObject linePrefab;
 
     public GameObject presentationOptionPrefab;
     public GameObject notificationPanelPrefab;

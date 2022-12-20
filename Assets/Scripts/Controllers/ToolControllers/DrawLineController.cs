@@ -22,7 +22,7 @@ public class DrawLineController : MonoBehaviour
 
     private void Update()
     {
-        if (points.Count > 0) {
+        if (points.Count > 0 && AppController.GetInstance().drawToolController.GetDrawing()) {
             for (int i = 0; i < points.Count; i++)
             {
                 pv.RPC("DrawLinePositionRPC", RpcTarget.All, points[i].x, points[i].y, points[i].z, i);
