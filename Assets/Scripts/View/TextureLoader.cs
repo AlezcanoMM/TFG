@@ -7,11 +7,11 @@ using UnityEngine.Networking;
 public class TextureLoader : Loader
 {
     public PhotonView pv;
-    private ApiController api;
+    private AppController app;
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
     }
 
     public override void Load(string slideId) {
@@ -52,8 +52,8 @@ public class TextureLoader : Loader
             {
                 Object slide = DownloadHandlerTexture.GetContent(uwr);
                 loadedSlidesTextures.Add(slide);
-                api.slidesController.IncrementRecursiveCounter();
-                api.slidesController.LoadSlidesRecursive();
+                app.slidesController.IncrementRecursiveCounter();
+                app.slidesController.LoadSlidesRecursive();
             }
         }
     }

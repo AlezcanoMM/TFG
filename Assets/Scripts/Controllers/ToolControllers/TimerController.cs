@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
-    private ApiController api;
+    private AppController app;
 
     private GameObject notifPanel;
 
@@ -21,11 +21,11 @@ public class TimerController : MonoBehaviour
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
     }
 
     public void InstantiateTimerPanel() {
-        notifPanel = Instantiate(api.notificationPanelPrefab);
+        notifPanel = Instantiate(app.notificationPanelPrefab);
         DelegateButtonActions();
         counter = 0;
         notifPanel.GetComponent<NotificationPanelController>().buttons.SetActive(true);
@@ -39,9 +39,9 @@ public class TimerController : MonoBehaviour
     }
 
     public void DelegateButtonActions() {
-        notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(0).gameObject.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { PlayTimer(); });
-        notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(0).gameObject.GetComponent<ButtonController>().invokeMethodOff.AddListener(delegate { PauseTimer(); });
-        notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(1).gameObject.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { ResetTimer(); });
+        notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(0).gameObject.GetComponent<InterfaceController>().invokeMethodOn.AddListener(delegate { PlayTimer(); });
+        notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(0).gameObject.GetComponent<InterfaceController>().invokeMethodOff.AddListener(delegate { PauseTimer(); });
+        notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(1).gameObject.GetComponent<InterfaceController>().invokeMethodOn.AddListener(delegate { ResetTimer(); });
     }
 
     IEnumerator TimeSeconds()
@@ -77,7 +77,7 @@ public class TimerController : MonoBehaviour
     public void ResetTimer()
     {
         if (!paused) {
-            notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(0).gameObject.GetComponent<ButtonController>().ForceChangeState();
+            notifPanel.GetComponent<NotificationPanelController>().buttons.transform.GetChild(0).gameObject.GetComponent<InterfaceController>().ForceChangeState();
         }
 
         paused = true;

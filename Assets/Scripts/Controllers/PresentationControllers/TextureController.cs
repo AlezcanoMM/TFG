@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class TextureController : MonoBehaviour
 {
-    private ApiController api;
+    private AppController app;
 
     public PhotonView pv;
 
@@ -13,7 +13,7 @@ public class TextureController : MonoBehaviour
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
         initialPlaneTransform = new Vector3(0.225f, 0.225f, 0.225f); ;
     }
 
@@ -24,10 +24,10 @@ public class TextureController : MonoBehaviour
     [PunRPC]
     public void LoadTextureOnPlaneRPC(int index)
     {
-        Texture2D texture = api.textureLoader.GetLoadedSlidesTextures()[index] as Texture2D;
-        api.plane.GetComponent<Renderer>().material.mainTexture = texture;
+        Texture2D texture = app.textureLoader.GetLoadedSlidesTextures()[index] as Texture2D;
+        app.plane.GetComponent<Renderer>().material.mainTexture = texture;
         float scaleFactor = (float)texture.width / (float)texture.height;
-        api.plane.transform.localScale = new Vector3(initialPlaneTransform.x*scaleFactor, initialPlaneTransform.y, initialPlaneTransform.z);
+        app.plane.transform.localScale = new Vector3(initialPlaneTransform.x*scaleFactor, initialPlaneTransform.y, initialPlaneTransform.z);
     }
 
     public void ClearTextureOnPlane() {
@@ -37,6 +37,6 @@ public class TextureController : MonoBehaviour
     [PunRPC]
     public void ClearTextureOnPlaneRPC()
     {
-        api.plane.GetComponent<Renderer>().material.mainTexture = null;
+        app.plane.GetComponent<Renderer>().material.mainTexture = null;
     }
 }

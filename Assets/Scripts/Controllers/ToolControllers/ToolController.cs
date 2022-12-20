@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ToolController : MonoBehaviour
 {
-    private ApiController api;
+    private AppController app;
 
     private LineRenderer lineRenderer;
 
@@ -13,7 +13,7 @@ public class ToolController : MonoBehaviour
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
     }
 
     public void ActivatePointer() {

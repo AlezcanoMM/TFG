@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ApiController : MonoBehaviour
+public class AppController : MonoBehaviour
 {
     public TextureController textureController;
     public VideoController videoController;
     public PresentationController presenationController;
     public TimerController timerController;
     public SlidesController slidesController;
+    public RoomSynchController roomSynchController;
+    public DrawToolController drawToolController;
+    public PlaneInteractionController planeInteractionController;
 
     public Loader textureLoader;
     public Loader videoLoader;
@@ -25,10 +28,12 @@ public class ApiController : MonoBehaviour
     public GameObject presentationOptionPrefab;
     public GameObject notificationPanelPrefab;
 
+    public GameObject loader;
+
     public PhotonView pv;
     public List<string> presentationSlidesIds = new List<string>();
 
-    private static ApiController instance = null;
+    private static AppController instance = null;
 
     private void Awake()
     {
@@ -43,7 +48,7 @@ public class ApiController : MonoBehaviour
         }
     }
 
-    public static ApiController GetInstance()
+    public static AppController GetInstance()
     {
         return instance;
     }

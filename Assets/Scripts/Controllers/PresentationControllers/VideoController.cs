@@ -6,7 +6,7 @@ using UnityEngine.Video;
 
 public class VideoController : MonoBehaviour
 {
-    private ApiController api;
+    private AppController app;
 
     public PhotonView pv;
     public VideoPlayer videoPlayer;
@@ -15,7 +15,7 @@ public class VideoController : MonoBehaviour
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
         initialPlaneTransform = new Vector3(0.225f, 0.225f, 0.225f); ;
     }
 
@@ -29,16 +29,26 @@ public class VideoController : MonoBehaviour
     {
         videoPlayer.enabled = true;
 
-        string url = api.videoLoader.GetLoadedSlidesUrls()[index];
+        string url = app.videoLoader.GetLoadedSlidesUrls()[index];
         Debug.Log("Loaded slides url: "+url);
 
         videoPlayer.url = url;
 
         Texture vidTexture = videoPlayer.texture;
         float scaleFactor = 1f; //(float)vidTexture.width / (float)vidTexture.height
-        api.plane.transform.localScale = new Vector3(initialPlaneTransform.x * scaleFactor, initialPlaneTransform.y, initialPlaneTransform.z);
+        app.plane.transform.localScale = new Vector3(initialPlaneTransform.x * scaleFactor, initialPlaneTransform.y, initialPlaneTransform.z);
 
         videoPlayer.Prepare();
         videoPlayer.Play();
+    }
+
+    public void StopVideo() {
+        pv.RPC("LoadVideoOnPlaneRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void StopVideoRPC()
+    {
+        videoPlayer.Stop();
     }
 }

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ButtonController : MonoBehaviour, IMixedRealityFocusHandler, IMixedRealityPointerHandler, IMixedRealityTouchHandler
+public class InterfaceController : MonoBehaviour, IMixedRealityFocusHandler, IMixedRealityPointerHandler, IMixedRealityTouchHandler
 {
     public bool buttonChanges = true;
 
@@ -18,19 +18,23 @@ public class ButtonController : MonoBehaviour, IMixedRealityFocusHandler, IMixed
 
     public TextMeshPro label;
 
-    public void OnClick() {
+    public void OnClick()
+    {
         if (!isClicked)
         {
             invokeMethodOn?.Invoke();
         }
-        else {
+        else
+        {
             invokeMethodOff?.Invoke();
         }
         ChangeState();
     }
 
-    private void ChangeState() {
-        if (buttonChanges) {
+    private void ChangeState()
+    {
+        if (buttonChanges)
+        {
             isClicked = !isClicked;
         }
     }
@@ -38,6 +42,11 @@ public class ButtonController : MonoBehaviour, IMixedRealityFocusHandler, IMixed
     public void ForceChangeState()
     {
         isClicked = !isClicked;
+    }
+
+    public void ChangeMaterial(Material mat)
+    {
+        this.gameObject.GetComponent<MeshRenderer>().material = mat;
     }
 
     public void OnPointerClicked(MixedRealityPointerEventData eventData)
@@ -54,7 +63,7 @@ public class ButtonController : MonoBehaviour, IMixedRealityFocusHandler, IMixed
 
     public void OnFocusEnter(FocusEventData eventData)
     {
-       //throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnFocusExit(FocusEventData eventData)

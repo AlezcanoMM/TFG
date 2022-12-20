@@ -8,13 +8,13 @@ using UnityEngine.Video;
 public class VideoLoader : Loader
 {
     public PhotonView pv;
-    private ApiController api;
+    private AppController app;
 
     private int counter = 0;
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
     }
 
     public override void Load(string slideId)

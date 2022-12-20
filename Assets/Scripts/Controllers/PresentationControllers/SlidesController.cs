@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SlidesController : MonoBehaviour
 {
-    private ApiController api;
+    private AppController app;
     public int index = 0;
 
     public PhotonView pv;
@@ -17,7 +17,7 @@ public class SlidesController : MonoBehaviour
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
     }
 
     public void LoadSlides()
@@ -32,36 +32,38 @@ public class SlidesController : MonoBehaviour
 
     [PunRPC]
     public void LoadSlidesRecursiveRPC() {
+        ClearPanel();
+        app.loader.SetActive(true);
         LoadSlidesRecursive();
     }
 
     public void LoadSlidesRecursive() {
-        if (recursiveCounter >= api.presentationSlidesIds.Count) {
+        if (recursiveCounter >= app.presentationSlidesIds.Count) {
+            app.loader.SetActive(false);
             //loads first slide
-            string[] firstSlideCheck = api.presentationSlidesIds[0].Split('|');
+            string[] firstSlideCheck = app.presentationSlidesIds[0].Split('|');
             if (firstSlideCheck[0] == "image")
             {
-                api.textureController.LoadTextureOnPlane(0); //loads first slide
+                app.textureController.LoadTextureOnPlane(0); //loads first slide
             }
             else if (firstSlideCheck[0] == "video" || firstSlideCheck[0] == "linkVideo")
             {
-                api.videoController.LoadVideoOnPlane(0); //loads first slide
+                app.videoController.LoadVideoOnPlane(0); //loads first slide
             }
             return;
         }
 
-        string[] slideInfo = api.presentationSlidesIds[recursiveCounter].Split('|');
+        string[] slideInfo = app.presentationSlidesIds[recursiveCounter].Split('|');
         if (slideInfo[0] == "image")
         {
-            api.textureLoader.Load(slideInfo[1]);
+            app.textureLoader.Load(slideInfo[1]);
         }
         else if (slideInfo[0] == "video" || slideInfo[0] == "linkVideo")
         {
-            api.videoLoader.Load(api.presentationSlidesIds[recursiveCounter]);
+            app.videoLoader.Load(app.presentationSlidesIds[recursiveCounter]);
             recursiveCounter++;
             LoadSlidesRecursive();
         }
-        
     }
 
     public void IncrementRecursiveCounter() {
@@ -70,27 +72,31 @@ public class SlidesController : MonoBehaviour
 
     public void ClearSlides() 
     {
-        api.videoLoader.Clear();
-        api.textureLoader.Clear();
+        Debug.LogError("AAAAAAA");
+        app.videoLoader.Clear();
+        app.textureLoader.Clear();
+        app.drawToolController.Clear();
         index = 0;
         textureIndex = 0;
         videoIndex = 0;
+        recursiveCounter = 0;
+        ClearPanel();
 }
 
     public void LoadNextSlide()
     {
-        if (index < (api.textureLoader.GetLoadedSlidesTextures().Count + api.videoLoader.GetLoadedSlidesUrls().Count)-1)
+        if (index < (app.textureLoader.GetLoadedSlidesTextures().Count + app.videoLoader.GetLoadedSlidesUrls().Count)-1)
         {
             ClearPanel();
 
             index++;
-            string[] slideInfo = api.presentationSlidesIds[index].Split('|');
+            string[] slideInfo = app.presentationSlidesIds[index].Split('|');
             if (slideInfo[0] == "image") {
                 textureIndex++;
-                api.textureController.LoadTextureOnPlane(textureIndex);
+                app.textureController.LoadTextureOnPlane(textureIndex);
             } else if (slideInfo[0] == "video" || slideInfo[0] == "linkVideo") {
                 videoIndex++;
-                api.videoController.LoadVideoOnPlane(videoIndex);
+                app.videoController.LoadVideoOnPlane(videoIndex);
             }
         }
     }
@@ -102,26 +108,26 @@ public class SlidesController : MonoBehaviour
             ClearPanel();
 
             index--;
-            string[] slideInfo = api.presentationSlidesIds[index].Split('|');
+            string[] slideInfo = app.presentationSlidesIds[index].Split('|');
             if (slideInfo[0] == "image")
             {
                 textureIndex--;
-                api.textureController.LoadTextureOnPlane(textureIndex);
+                app.textureController.LoadTextureOnPlane(textureIndex);
             }
             else if (slideInfo[0] == "video" || slideInfo[0] == "linkVideo")
             {
                 videoIndex--;
-                api.videoController.LoadVideoOnPlane(videoIndex);
+                app.videoController.LoadVideoOnPlane(videoIndex);
             }
         }
     }
 
     public void ClearPanel() {
-        api.textureController.ClearTextureOnPlane();
-        if (api.videoController.videoPlayer.isPlaying)
+        app.textureController.ClearTextureOnPlane();
+        if (app.videoController.videoPlayer.isPlaying)
         {
-            api.videoController.videoPlayer.Stop();
-            api.videoController.videoPlayer.enabled = false;
+            app.videoController.videoPlayer.Stop();
         }
+        app.videoController.videoPlayer.enabled = false;
     }
 }

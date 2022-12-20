@@ -28,7 +28,7 @@ public class HandPositionController : MonoBehaviour
     private void Update()
     {
         //Set Right hand
-        if (GameObject.Find(hand) && ApiController.GetInstance().pv.IsMine)
+        if (GameObject.Find(hand) && AppController.GetInstance().pv.IsMine)
         {
             wristRootBone = GameObject.Find(hand).GetComponent<Transform>();
         }

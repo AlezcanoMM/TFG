@@ -27,18 +27,22 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CountOfPlayers == 1 && photonView.IsMine) {
             Debug.Log("You are room master");
             roomMaster = true;
-            ApiController.GetInstance().presentationsButton.SetActive(true);
+            AppController.GetInstance().presentationsButton.SetActive(true);
         }
 
-        ApiController.GetInstance().mainMenu.SetActive(true);
+        AppController.GetInstance().mainMenu.SetActive(true);
         username = PhotonNetwork.NickName;
         pv.RPC("CreateUserButtonRPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer, username);
 
     }
 
+    public bool GetRoomMaster() {
+        return roomMaster;
+    }
+
     private void Update()
     {
-        if (GameObject.Find("Right_RiggedHandRight(Clone)") && !instantiatedRight) {
+        /*if (GameObject.Find("Right_RiggedHandRight(Clone)") && !instantiatedRight) {
             PhotonNetwork.Instantiate("Right_HandModel",Vector3.zero,Quaternion.identity,0);
             instantiatedRight = true;
         }
@@ -47,7 +51,7 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate("Left_HandModel", Vector3.zero, Quaternion.identity, 0);
             instantiatedLeft = true;
-        }
+        }*/
     }
 
     [PunRPC]
@@ -55,14 +59,14 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         GameObject userButton = PhotonNetwork.Instantiate("UserButton", Vector3.zero, Quaternion.Euler(-90, 0, 0), 0);
 
         //Delegate to button that if roomMaster clicks it, you can forfeit roomMaster
-        userButton.GetComponent<ButtonController>().label.text = username;
+        userButton.GetComponent<InterfaceController>().label.text = username;
         if (pv.Owner == localPlayer)
         {
-            userButton.GetComponent<ButtonController>().label.text = "You";
+            userButton.GetComponent<InterfaceController>().label.text = "You";
         }
-        userButton.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { ForfeitMaster(localPlayer); });
+        userButton.GetComponent<InterfaceController>().invokeMethodOn.AddListener(delegate { ForfeitMaster(localPlayer); });
 
-        userButton.transform.SetParent(ApiController.GetInstance().usersMenu.transform, false);
+        userButton.transform.SetParent(AppController.GetInstance().usersMenu.transform, false);
     }
 
     public void ForfeitMaster(Player player) {
@@ -72,15 +76,15 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
 
         roomMaster = false;
 
-        bool statePresentationsButton = ApiController.GetInstance().presentationsButton.activeSelf;
-        bool statePresentationSelectMenu = ApiController.GetInstance().presentationSelectMenu.activeSelf;
-        bool statePresentButton = ApiController.GetInstance().presentButton.activeSelf;
-        bool stateSlidesMenu = ApiController.GetInstance().slidesMenu.activeSelf;
+        bool statePresentationsButton = AppController.GetInstance().presentationsButton.activeSelf;
+        bool statePresentationSelectMenu = AppController.GetInstance().presentationSelectMenu.activeSelf;
+        bool statePresentButton = AppController.GetInstance().presentButton.activeSelf;
+        bool stateSlidesMenu = AppController.GetInstance().slidesMenu.activeSelf;
 
-        ApiController.GetInstance().presentationsButton.SetActive(false);
-        ApiController.GetInstance().presentationSelectMenu.SetActive(false);
-        ApiController.GetInstance().presentButton.SetActive(false);
-        ApiController.GetInstance().slidesMenu.SetActive(false);
+        AppController.GetInstance().presentationsButton.SetActive(false);
+        AppController.GetInstance().presentationSelectMenu.SetActive(false);
+        AppController.GetInstance().presentButton.SetActive(false);
+        AppController.GetInstance().slidesMenu.SetActive(false);
 
         pv.RPC("ForfeitMasterRPC", RpcTarget.AllBuffered, player, statePresentationsButton, statePresentationSelectMenu, statePresentButton, stateSlidesMenu);
     }
@@ -92,10 +96,10 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
         {
             roomMaster = true;
 
-            ApiController.GetInstance().presentationsButton.SetActive(statePresentationsButton);
-            ApiController.GetInstance().presentationSelectMenu.SetActive(statePresentationSelectMenu);
-            ApiController.GetInstance().presentButton.SetActive(statePresentButton);
-            ApiController.GetInstance().slidesMenu.SetActive(stateSlidesMenu);
+            AppController.GetInstance().presentationsButton.SetActive(statePresentationsButton);
+            AppController.GetInstance().presentationSelectMenu.SetActive(statePresentationSelectMenu);
+            AppController.GetInstance().presentButton.SetActive(statePresentButton);
+            AppController.GetInstance().slidesMenu.SetActive(stateSlidesMenu);
         }
     }
 

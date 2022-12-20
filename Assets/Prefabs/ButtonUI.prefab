@@ -411,10 +411,10 @@ GameObject:
   - component: {fileID: 8446706157863718301}
   - component: {fileID: 8446706157863718298}
   - component: {fileID: 8446706157863718299}
-  - component: {fileID: 8446706157863718303}
   - component: {fileID: 711386567}
   - component: {fileID: 7786111994941697277}
   - component: {fileID: 6269746820099103335}
+  - component: {fileID: 6152110986743276108}
   m_Layer: 0
   m_Name: ButtonUI
   m_TagString: Untagged
@@ -506,27 +506,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8446706157863718303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8446706157863718296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46fb2da70c6bd9949b8303d2a3d5faab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonChanges: 1
-  isClicked: 0
-  invokeMethodOn:
-    m_PersistentCalls:
-      m_Calls: []
-  invokeMethodOff:
-    m_PersistentCalls:
-      m_Calls: []
-  label: {fileID: 8446706157410962459}
 --- !u!114 &711386567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,3 +563,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6152110986743276108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446706157863718296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46fb2da70c6bd9949b8303d2a3d5faab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonChanges: 1
+  isClicked: 0
+  invokeMethodOn:
+    m_PersistentCalls:
+      m_Calls: []
+  invokeMethodOff:
+    m_PersistentCalls:
+      m_Calls: []
+  label: {fileID: 0}

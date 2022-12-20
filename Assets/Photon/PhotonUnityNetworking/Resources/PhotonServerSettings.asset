@@ -63,6 +63,8 @@ MonoBehaviour:
   - NotifyRPC
   - LoadSlidesRecursiveRPC
   - SetPlayerName
+  - StopVideoRPC
+  - DrawLinePositionRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

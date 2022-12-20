@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PointerController : MonoBehaviour, IPunObservable
 {
-    private ApiController api;
+    private AppController app;
     
     public LineRenderer lineRenderer;
     public PhotonView pv;
@@ -22,7 +22,7 @@ public class PointerController : MonoBehaviour, IPunObservable
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
 
         networkLocalPosition = transform.localPosition;
         networkLocalRotation = transform.localRotation;
@@ -44,10 +44,9 @@ public class PointerController : MonoBehaviour, IPunObservable
         {
             transform.position = Camera.main.transform.position;
             transform.rotation = Camera.main.transform.rotation;
-            //Debug.Log("Right HAND available?");
+
             if (InputRayUtils.TryGetHandRay(Microsoft.MixedReality.Toolkit.Utilities.Handedness.Right, out rightHandRay))
             {
-                //Debug.Log("Right HAND available: origin = " + rightHandRay.origin + " direction = " + rightHandRay.direction);
                 LaserPointerOrigin = rightHandRay.origin;
                 LaserPointerDestination = rightHandRay.origin + rightHandRay.direction;
             }

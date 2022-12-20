@@ -9,18 +9,18 @@ using SimpleJSON;
 
 public class PresentationController : MonoBehaviour
 {
-    private ApiController api;
+    private AppController app;
     private List<GameObject> options;
 
     public PhotonView pv;
 
-    private string jsonURL = "https://drive.google.com/uc?export=download&id=18kr9WL90RinLJdXq22QsYAuS-QWCM6et";
+    private string jsonURL = "https://drive.google.com/uc?export=download&id=1NGDrZg9HM9T83Fgos_XO0_-UdNvnj1HF";
 
     private bool loaded = false;
 
     private void Start()
     {
-        api = ApiController.GetInstance();
+        app = AppController.GetInstance();
         options = new List<GameObject>();
     }
 
@@ -52,10 +52,10 @@ public class PresentationController : MonoBehaviour
             foreach (JSONNode p in jsonData["presentations"])
             {
                 Debug.Log("Getting presentation: "+p["name"]);
-                GameObject option = Instantiate(api.presentationOptionPrefab, api.presentationSelectMenu.transform);
+                GameObject option = Instantiate(app.presentationOptionPrefab, app.presentationSelectMenu.transform);
                 option.transform.GetChild(1).GetComponent<TextMeshPro>().text = p["name"];
-                option.GetComponent<ButtonController>().buttonChanges = false;
-                option.GetComponent<ButtonController>().invokeMethodOn.AddListener(delegate { SelectPresentationOption(p); });
+                option.GetComponent<InterfaceController>().buttonChanges = false;
+                option.GetComponent<InterfaceController>().invokeMethodOn.AddListener(delegate { SelectPresentationOption(p); });
                 options.Add(option);
             }
         }
@@ -70,20 +70,20 @@ public class PresentationController : MonoBehaviour
             pv.RPC("AddSlideIdRPC", RpcTarget.All, slideId);
         }
 
-        api.presentButton.SetActive(true);
-        api.presentationSelectMenu.SetActive(false);
+        app.presentButton.SetActive(true);
+        app.presentationSelectMenu.SetActive(false);
     }
 
     [PunRPC]
     public void AddSlideIdRPC(string slideId) {
-        api.presentationSlidesIds.Add(slideId);
+        app.presentationSlidesIds.Add(slideId);
     }
 
     [PunRPC]
     public void EndAndClearPresentationRPC()
     {
         loaded = true;
-        api.presentationSlidesIds.Clear();
-        api.EndPresentation();
+        app.presentationSlidesIds.Clear();
+        app.EndPresentation();
     }
 }
