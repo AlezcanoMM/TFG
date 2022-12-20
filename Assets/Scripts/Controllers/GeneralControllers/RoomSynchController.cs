@@ -57,6 +57,7 @@ public class RoomSynchController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void CreateUserButtonRPC(Player localPlayer, string username) {
         GameObject userButton = PhotonNetwork.Instantiate("UserButton", Vector3.zero, Quaternion.Euler(-90, 0, 0), 0);
+        userButton.SetActive(false);
 
         //Delegate to button that if roomMaster clicks it, you can forfeit roomMaster
         userButton.GetComponent<InterfaceController>().label.text = username;
