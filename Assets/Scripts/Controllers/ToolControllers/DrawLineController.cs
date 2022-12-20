@@ -11,6 +11,7 @@ public class DrawLineController : MonoBehaviour
     public List<Vector3> points = new List<Vector3>();
 
     private int i = 0;
+    private int pointsAddedCounter = 0;
 
     private void Start()
     {
@@ -31,10 +32,11 @@ public class DrawLineController : MonoBehaviour
 
     private void Update()
     {
-        if (points.Count > 0 && AppController.GetInstance().drawToolController.GetDrawing()) {
+        if (points.Count > 0 && AppController.GetInstance().drawToolController.GetDrawing() && pointsAddedCounter <= i) {
             for (int i = 0; i < points.Count; i++)
             {
                 pv.RPC("DrawLinePositionRPC", RpcTarget.All, i);
+                pointsAddedCounter++;
             }
         }
     }
@@ -46,6 +48,7 @@ public class DrawLineController : MonoBehaviour
 
     public void ClearPoints()
     {
+        pointsAddedCounter = 0;
         pv.RPC("ClearPointsRPC", RpcTarget.All);
     }
 
