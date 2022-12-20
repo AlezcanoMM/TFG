@@ -16,8 +16,13 @@ public class DrawLineController : MonoBehaviour
     }
 
     public void SetPoints(List<Vector3> points) {
-        line.positionCount = points.Count;
+        pv.RPC("LinePositionCountRPC", RpcTarget.All);
         this.points = points;
+    }
+
+    [PunRPC]
+    public void LinePositionCountRPC() {
+        line.positionCount = points.Count;
     }
 
     private void Update()
