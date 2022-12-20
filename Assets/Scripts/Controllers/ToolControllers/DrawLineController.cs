@@ -10,18 +10,22 @@ public class DrawLineController : MonoBehaviour
     public LineRenderer line;
     public List<Vector3> points = new List<Vector3>();
 
+    private int i = 0;
+
     private void Start()
     {
         pv = gameObject.GetComponent<PhotonView>();
     }
 
     public void SetPoints(List<Vector3> points) {
-        pv.RPC("LinePositionCountRPC", RpcTarget.All);
-        this.points = points;
+        for (; i < points.Count; i++) {
+            pv.RPC("LinePositionCountRPC", RpcTarget.All, points[i].x, points[i].y, points[i].z);
+        }
     }
 
     [PunRPC]
-    public void LinePositionCountRPC() {
+    public void LinePositionCountRPC(float x, float y, float z) {
+        this.points.Add(new Vector3(x,y,z));
         line.positionCount = points.Count;
     }
 
@@ -30,17 +34,18 @@ public class DrawLineController : MonoBehaviour
         if (points.Count > 0 && AppController.GetInstance().drawToolController.GetDrawing()) {
             for (int i = 0; i < points.Count; i++)
             {
-                pv.RPC("DrawLinePositionRPC", RpcTarget.All, points[i].x, points[i].y, points[i].z, i);
+                pv.RPC("DrawLinePositionRPC", RpcTarget.All, i);
             }
         }
     }
 
     [PunRPC]
-    public void DrawLinePositionRPC(float x, float y, float z, int i) {
-        line.SetPosition(i, new Vector3(x, y, z));
+    public void DrawLinePositionRPC(int i) {
+        line.SetPosition(i, points[i]);
     }
 
     public void ClearPoints() {
+        i = 0;
         points.Clear();
     }
 }
